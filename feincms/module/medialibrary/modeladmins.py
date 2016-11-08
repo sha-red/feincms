@@ -115,7 +115,7 @@ class MediaFileAdmin(ExtensionModelAdmin):
     inlines = [admin_translationinline(MediaFileTranslation)]
     list_display = [
         'admin_thumbnail', '__str__', 'file_info', 'formatted_created']
-    list_display_links = ['__str__']
+    list_display_links = ['admin_thumbnail', '__str__']
     list_filter = ['type', 'categories']
     list_per_page = 25
     search_fields = ['copyright', 'file', 'translations__caption']
@@ -144,11 +144,7 @@ class MediaFileAdmin(ExtensionModelAdmin):
     def admin_thumbnail(self, obj):
         image = admin_thumbnail(obj)
         if image:
-            return mark_safe("""
-                <a href="%(url)s" target="_blank">
-                    <img src="%(image)s" alt="" />
-                </a>""" % {
-                'url': obj.file.url,
+            return mark_safe("""<img src="%(image)s">""" % {
                 'image': image}
             )
         return ''
